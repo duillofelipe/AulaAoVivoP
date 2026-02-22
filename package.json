@@ -1,0 +1,30 @@
+{
+  "name": "aulaaovivop",
+  "version": "1.0.0",
+  "description": "Primeiro programa para a internet usando node + express",
+  "keywords": [
+    "http",
+    "express",
+    "node",
+    "PPI"
+  ],
+  "homepage": "https://github.com/duillofelipe/AulaAoVivoP#readme",
+  "bugs": {
+    "url": "https://github.com/duillofelipe/AulaAoVivoP/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duillofelipe/AulaAoVivoP.git"
+  },
+  "license": "ISC",
+  "author": "Duillo Felipe",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
