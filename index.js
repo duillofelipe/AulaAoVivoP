@@ -16,13 +16,16 @@ server.get('/', (requisição, resposta) => {
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">    
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Primeiro programa para internet usando Node + express</title>     
-        </head>     
-        <body>
-           <h1>Primeiro programa para internet usando Node + express</h1>
-           <h2>Olá, bem-vindo ao início de tudo!</h2>
-        </body>
-        </html>
+            <title>Reajuste Salarial</title>
+</head>
+<body>
+         <h1>Empresa - Presidente Prudente/SP</h1>
+         <p>Para calcular o reajuste informe na URL:</p>
+         <p>
+            http://localhost:3000/calculasalario/?idade=18&sexo=F&salario_base=1700&anoContratacao=2014&matricula=12345
+         </p>
+</body>
+</html>
     `); 
 });
 
@@ -94,9 +97,106 @@ else {
 }
 
 
+
     
     console.log("requisição tabuada"); //exibindo os parâmetros de consulta na URL
 });
+
+server.get('/calculasalario', (requisição, resposta) => {
+ 
+    const idade = requisição.query.idade;
+    const sexo = requisição.query.sexo;
+    const salario_base = requisição.query.salario_base;
+    const anoContratacao = requisição.query.anoContratacao;
+    const matricula = requisição.query.matricula;    
+   
+
+
+    if (!idade && !sexo && !salario_base && !anoContratacao ) {
+        return res.send(`
+            <DOCTYPE html>
+        <html lang="pt-br"> 
+        <head>  
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tabuada</title>     
+        </head>                 
+        <body>
+            <h1>Reajuste Salarial - Empresa Presidente Prudente/SP</h1>
+            <p>Para calcular o reajuste salarial, informe na URL:</p>
+            <p><strong>http://localhost:3000/calculasalario?idade=18&sexo=F&salario_base=1700&anoContratacao=2014&matricula=12345</strong></p>
+            <h3>Regras:</h3>
+            <ul>
+                <li>Idade deve ser maior que 16 anos</li>
+                <li>Salário base deve ser número válido</li>
+                <li>Ano de contratação deve ser maior que 1960</li>
+                <li>Matrícula deve ser maior que zero</li>
+            </ul>
+        </body>
+        </html>
+        `);
+    }
+       
+
+ 
+    const idadeNum = parseInt(idade);
+    const salarioNum = parseFloat(salario_base);
+    const anoNum = parseInt(anoContratacao);
+    const matriculaNum = parseInt(matricula);
+    const anoAtual = new Date().getFullYear();
+
+
+    if (
+        idadeNum <= 16 ||
+        isNaN(salarioNum) ||
+        isNaN(anoNum) || anoNum <= 1960 ||
+        isNaN(matriculaNum) || matriculaNum <= 0
+    ) {
+        return resposta.send(`
+            <h1>Erro no Cálculo</h1>
+            <p>Não foi possível realizar o cálculo, pois os dados informados não são válidos.</p>
+            <a href="/">Voltar</a>
+        `);
+    }
+
+ 
+    const tempoEmpresa = anoAtual - anoNum;
+    let percentual = 0;
+
+    if (tempoEmpresa <= 5) {
+        percentual = 0.05;
+    } else if (tempoEmpresa <= 10) {
+        percentual = 0.10;
+    } else {
+        percentual = 0.15;
+    }
+
+   
+    if (sexo === 'F' || sexo === 'f') {
+        percentual += 0.02;
+    }
+
+    const novoSalario = salarioNum + (salarioNum * percentual);
+
+
+    resposta.send(`
+        <h1>Dados do Funcionário</h1>
+        <p><strong>Matrícula:</strong> ${matriculaNum}</p>
+        <p><strong>Idade:</strong> ${idadeNum}</p>
+        <p><strong>Sexo:</strong> ${sexo}</p>
+        <p><strong>Salário Base:</strong> R$ ${salarioNum.toFixed(2)}</p>
+        <p><strong>Ano de Contratação:</strong> ${anoNum}</p>
+        <p><strong>Tempo de Empresa:</strong> ${tempoEmpresa} anos</p>
+        <hr>
+        <h2 style="color: green;">Novo Salário Reajustado: R$ ${novoSalario.toFixed(2)}</h2>
+        <p>Percentual aplicado: ${(percentual * 100).toFixed(1)}%</p>
+        <a href="/">Calcular novamente</a>
+    `);
+
+
+});
+    
 
 
 server.listen(porta, host, () => {  
