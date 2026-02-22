@@ -10,7 +10,7 @@ const server = express(); //oferecendo ao desenvolvedor a funcionalidade do expr
 
 server.get('/', (requisição, resposta) => {
     resposta.send(`   
-        <!DOCTYPE html>
+        <DOCTYPE html>
         <html lang="pt-br"> 
         <head>  
             <meta charset="UTF-8">
@@ -19,7 +19,7 @@ server.get('/', (requisição, resposta) => {
             <title>Primeiro programa para internet usando Node + express</title>     
         </head>     
         <body>
-           <h1>PPrimeiro programa para internet usando Node + express</h1>
+           <h1>Primeiro programa para internet usando Node + express</h1>
            <h2>Olá, bem-vindo ao início de tudo!</h2>
         </body>
         </html>
@@ -30,7 +30,7 @@ server.get('/horaAtual', (requisição, resposta) => {
     const horaAtual = new Date();
     const hora = horaAtual.getHours() + ':' + horaAtual.getMinutes() + ':' + horaAtual.getSeconds();
     resposta.send(`   
-        <!DOCTYPE html>
+        <DOCTYPE html>
         <html lang="pt-br"> 
         <head>  
             <meta charset="UTF-8">
