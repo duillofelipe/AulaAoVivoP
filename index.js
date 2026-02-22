@@ -45,6 +45,60 @@ server.get('/horaAtual', (requisição, resposta) => {
     `); 
 });
 
+server.get('/tabuada', (requisição, resposta) => {
+    //Tabuada de qual numero e até qual sequencia?  
+    const numero = parseInt(requisição.query.numero); //pegando o número da tabuada a partir dos parâmetros de consulta na UR
+    const sequencia = parseInt(requisição.query.sequencia); //pegando a sequência da tabuada a partir dos parâmetros de consulta na URL
+if  (!numero || !sequencia) { //verificando se os parâmetros de consulta estão presentes
+    resposta.send(`
+        <DOCTYPE html>
+        <html lang="pt-br"> 
+        <head>  
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tabuada</title>     
+        </head>                 
+        <body>
+           <h1>Tabuada</h1>
+           <p>Por favor, forneça os parâmetros de consulta "numero" e "sequencia" na URL.</p>           
+        </body>
+        </html>
+        `)}
+else {
+    resposta.setHeader('Content-Type', 'text/html'); //definindo o tipo de conteúdo da resposta como HTML
+    resposta.write(`
+        <DOCTYPE html>
+        <html lang="pt-br">         
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tabuada</title>     
+        </head>         
+        <body>      
+              <h1>Tabuada do ${numero} ate ${sequencia}</h1>
+              <ul>
+    `); 
+
+    for (let i = 0; i <= sequencia; i++) { //gerando a tabuada do número até a sequência fornecida
+        resposta.write(`<li>${i} x ${numero} = ${numero * i}</li>`);
+    }
+    resposta.write(`
+              </ul>   
+        </body>
+        </html>
+    `);
+
+    resposta.end();
+}
+
+
+    
+    console.log("requisição tabuada"); //exibindo os parâmetros de consulta na URL
+});
+
+
 server.listen(porta, host, () => {  
     console.log(`Servidor rodando em http://${host}:${porta}`);
 });
