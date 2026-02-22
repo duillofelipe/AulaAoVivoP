@@ -8,7 +8,7 @@ const server = express(); //oferecendo ao desenvolvedor a funcionalidade do expr
 
 //rechear servidor com funcionalidades 
 
-server.get('/', (requisição, resposta) => {,
+server.get('/', (requisição, resposta) => {
     resposta.send(`   
         <DOCTYPE html>
         <html lang="pt-br"> 
